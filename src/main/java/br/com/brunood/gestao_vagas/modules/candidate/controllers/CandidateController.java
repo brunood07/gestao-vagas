@@ -1,7 +1,9 @@
 package br.com.brunood.gestao_vagas.modules.candidate.controllers;
 
 import br.com.brunood.gestao_vagas.modules.candidate.entity.Candidate;
+import br.com.brunood.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/candidate")
 public class CandidateController {
 
+    @Autowired
+    private CandidateRepository candidateRepository;
+
     @PostMapping("/")
     public void create(@Valid @RequestBody Candidate data) {
-        System.out.println(data);
+        this.candidateRepository.save(data);
     }
 
 }
