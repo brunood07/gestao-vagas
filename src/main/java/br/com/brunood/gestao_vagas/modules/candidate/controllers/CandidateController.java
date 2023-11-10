@@ -1,5 +1,6 @@
 package br.com.brunood.gestao_vagas.modules.candidate.controllers;
 
+import br.com.brunood.gestao_vagas.exceptions.UserFoundException;
 import br.com.brunood.gestao_vagas.modules.candidate.entity.Candidate;
 import br.com.brunood.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import jakarta.validation.Valid;
@@ -18,6 +19,13 @@ public class CandidateController {
 
     @PostMapping("/")
     public void create(@Valid @RequestBody Candidate data) {
+        this.candidateRepository
+                .findByUsernameOrEmail(data.getUsername(), data.getEmail())
+                .ifPresent((user) -> {
+                        throw new UserFoundException();
+                });
+
+
         this.candidateRepository.save(data);
     }
 
