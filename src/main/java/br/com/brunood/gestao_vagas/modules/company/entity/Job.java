@@ -20,7 +20,7 @@ public class Job {
     private String level;
 
     @ManyToOne()
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
 
     @Column(name = "company_id")
