@@ -1,10 +1,10 @@
 package br.com.brunood.gestao_vagas.modules.candidate.controllers;
 
-import br.com.brunood.gestao_vagas.exceptions.UserFoundException;
 import br.com.brunood.gestao_vagas.modules.candidate.entity.Candidate;
-import br.com.brunood.gestao_vagas.modules.candidate.repository.CandidateRepository;
+import br.com.brunood.gestao_vagas.modules.candidate.usecases.CreateCandidateUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,20 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/candidate")
 public class CandidateController {
-
     @Autowired
-    private CandidateRepository candidateRepository;
+    CreateCandidateUseCase createCandidateUseCase;
 
     @PostMapping("/")
-    public void create(@Valid @RequestBody Candidate data) {
-        this.candidateRepository
-                .findByUsernameOrEmail(data.getUsername(), data.getEmail())
-                .ifPresent((user) -> {
-                        throw new UserFoundException();
-                });
+    public ResponseEntity<Object> create(@Valid @RequestBody Candidate data) {
+        try {
+            Candidate result = createCandidateUseCase.execute(data);
 
-
-        this.candidateRepository.save(data);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
