@@ -1,6 +1,7 @@
 package br.com.brunood.gestao_vagas.modules.company.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,13 +18,15 @@ public class Job {
 
     private String description;
     private String beneficios;
+
+    @NotBlank(message = "o campo [level] é obrigatório")
     private String level;
 
     @ManyToOne()
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
 
-    @Column(name = "company_id")
+    @Column(name = "company_id", nullable = false)
     private UUID companyId;
 
     @CreationTimestamp
