@@ -2,7 +2,10 @@ package br.com.brunood.gestao_vagas.modules.company.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -10,6 +13,9 @@ import java.util.UUID;
 
 @Data
 @Entity(name = "jobs")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Job {
 
     @Id
@@ -17,7 +23,7 @@ public class Job {
     private UUID id;
 
     private String description;
-    private String beneficios;
+    private String benefits;
 
     @NotBlank(message = "o campo [level] é obrigatório")
     private String level;
