@@ -1,6 +1,7 @@
 package br.com.brunood.gestao_vagas.modules.company.controllers;
 
 import br.com.brunood.gestao_vagas.modules.company.dto.AuthenticateCompanyDTO;
+import br.com.brunood.gestao_vagas.modules.company.dto.AuthenticateCompanyResponseDTO;
 import br.com.brunood.gestao_vagas.modules.company.usecases.AuthenticateCompanyUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,9 @@ public class AuthenticateCompanyController {
     private AuthenticateCompanyUseCase authenticateCompanyUseCase;
 
     @PostMapping("/auth")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticateCompanyDTO data) throws AuthenticationException {
+    public ResponseEntity<Object> authenticate(@RequestBody AuthenticateCompanyDTO data) throws AuthenticationException {
         try {
-            String token = this.authenticateCompanyUseCase.execute(data);
+            AuthenticateCompanyResponseDTO token = this.authenticateCompanyUseCase.execute(data);
 
             return ResponseEntity.ok().body(token);
         } catch (Exception e) {
